@@ -10,6 +10,8 @@ flask-marshmallow = "*"
 psycopg2-binary = "*"
 marshmallow-sqlalchemy = "*"
 flask-bcrypt = "*"
+pyjwt = "*"
+google-search-results = "*"
 
 [dev-packages]
 
