@@ -1,11 +1,12 @@
 from app import db, bcrypt
 from sqlalchemy.ext.hybrid import hybrid_property
 
+
 class UserModel(db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.Text, unique=True, nullable=False)
-    invite_code = db.Column(db.Text, unique=False, nullable = False)
+    invite_code = db.Column(db.Text, unique=False, nullable=False)
     email = db.Column(db.Text, unique=True, nullable=False)
     password_hash = db.Column(db.Text, nullable=True)
     total_score = db.Column(db.Integer, unique=False, nullable=True)

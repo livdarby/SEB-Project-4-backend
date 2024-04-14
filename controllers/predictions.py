@@ -16,13 +16,14 @@ router = Blueprint("predictions", __name__)
 
 prediction_serializer = PredictionSerializer()
 
-@router.route('/predictions', methods = ["GET"])
+
+@router.route("/predictions", methods=["GET"])
 def get_predictions():
     predictions = PredictionModel.query.all()
-    return prediction_serializer.jsonify(predictions, many = True), HTTPStatus.OK
+    return prediction_serializer.jsonify(predictions, many=True), HTTPStatus.OK
 
 
-@router.route('/predictions', methods=["POST"])
+@router.route("/predictions", methods=["POST"])
 @secure_route
 def create():
     prediction_dictionary = request.json
@@ -58,7 +59,8 @@ def create():
             HTTPStatus.UNPROCESSABLE_ENTITY,
         )
 
-@router.route('/predictions/<int:user_id>', methods=["GET"])
+
+@router.route("/predictions/<int:user_id>", methods=["GET"])
 @secure_route
 def get_all_user_predictions(user_id):
     user = db.session.query(UserModel).get(user_id)
@@ -71,6 +73,8 @@ def get_all_user_predictions(user_id):
         return {
             "message": "You are not authorised to get these predictions"
         }, HTTPStatus.UNAUTHORIZED
-    predictions = db.session.query(PredictionModel).filter(PredictionModel.user_id == user.id)
+    predictions = db.session.query(PredictionModel).filter(
+        PredictionModel.user_id == user.id
+    )
     print(prediction_serializer.jsonify(predictions, many=True))
     return prediction_serializer.jsonify(predictions, many=True), HTTPStatus.OK
