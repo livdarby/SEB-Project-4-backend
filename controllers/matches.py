@@ -2,12 +2,16 @@ from http import HTTPStatus
 import logging
 from datetime import datetime, timezone
 import os
+import pprint
 from flask import Blueprint, g
 from marshmallow import ValidationError, Schema, fields
 from sqlalchemy.exc import SQLAlchemyError
 from serpapi import GoogleSearch
 from dotenv import load_dotenv
-import pprint
+
+# Could we do a get to clean the data
+# And a post to post this data to the db?
+# Instead of doing it all in one controller?
 
 load_dotenv()
 api_key = os.getenv("API_KEY")
@@ -26,7 +30,7 @@ match_serializer = MatchSerializer()
 @router.route("/matches", methods=["GET"])
 def get_matches():
     matches = MatchModel.query.all()
-    print(matches)
+    # print(matches)
     return match_serializer.jsonify(matches, many=True), HTTPStatus.OK
 
 
@@ -65,18 +69,23 @@ def create():
         }
         search = GoogleSearch(params)
         results = search.get_dict()
-        matches = results["sports_results"]["games"]
-        pprint.pp(matches)
-        premier_league_matches = [
-            match for match in matches if match["tournament"] == "Premier League"
-        ]
-        print("correct mathces: ", premier_league_matches)
-        for element in premier_league_matches:
-            date = element["date"]
-            teams = element["teams"]
-            team_one = teams[0]["name"]
-            team_two = teams[1]["name"]
-        return (date, team_one, team_two)
+        if "sports_matches" in results.keys():
+            matches = results["sports_results"]["games"]
+
+            # pprint.pp(matches)
+            premier_league_matches = [
+                match for match in matches if match["tournament"] == "Premier League"
+            ]
+            # pprint.pp(premier_league_matches)
+            for element in premier_league_matches:
+                date = element["date"]
+                teams = element["teams"]
+                team_one = teams[0]["name"]
+                team_two = teams[1]["name"]
+                if "score" in teams[0].keys():
+                    team_one_score = teams[0]["score"]
+                    team_two_score = teams[1]["score"]
+            return (date, team_one, team_two)
 
     def date_of_match(string):
         if (
@@ -100,7 +109,7 @@ def create():
         for club in premier_league_clubs:
             data = fetch_matches(club)
 
-            print(data)
+            # print(data)
             date = data[0]
             team_one = data[1]
             team_two = data[2]
@@ -109,7 +118,7 @@ def create():
 
             date_created = str(datetime.now(timezone.utc))
             match_date = str(date_of_match(date))
-            print(type(date_created), type(match_date))
+            # print(type(date_created), type(match_date))
 
             match_model = match_serializer.load(
                 {
@@ -119,7 +128,7 @@ def create():
                     "team_two_name": team_two,
                 }
             )
-            print(match_model.match_date)
+            # print(match_model.match_date)
             db.session.add(match_model)
             db.session.commit()
         return match_serializer.jsonify(match_model), HTTPStatus.OK
