@@ -101,10 +101,14 @@ def get_new_matches(club_name):
 
 
 @router.route("/matches", methods=["POST"])
-@secure_route
+# @secure_route
 def create():
 
     match_dictionary = request.json
+
+    def check_if_match_existing(team_one_name, team_two_name):
+        match = db.session.query(MatchModel).filter(MatchModel.team_one_name == team_one_name, MatchModel.team_two_name == team_two_name).first()
+        return match
 
     try:
         for match in match_dictionary:
@@ -135,9 +139,19 @@ def create():
                     "team_two_name": match["teams"][1]["name"],
                 }
             )
-            # print(match_model.match_date)
-            db.session.add(match_model)
-            db.session.commit()
+            # we need to check whether the match already exists in the db
+            # take team_one_name and team_two_name and sort alphabetically
+            # check if they already exist in the db
+
+            existing_match = check_if_match_existing(match_model.team_one_name, match_model.team_two_name)
+            if existing_match:
+                pass
+            else:
+                db.session.add(match_model)
+                db.session.commit()
+
+            # db.session.add(match_model)
+
         return {"message": "Matches successfully posted to the db"}, HTTPStatus.OK
 
     except ValidationError as e:
