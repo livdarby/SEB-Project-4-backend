@@ -13,6 +13,8 @@ from config.environment import API_KEY
 # And a post to post this data to the db?
 # Instead of doing it all in one controller?
 
+# we need to check if a match already exists before posting it
+
 from models.match import MatchModel
 from middleware.secure_route import secure_route
 
@@ -31,37 +33,14 @@ def get_matches():
     return match_serializer.jsonify(matches, many=True), HTTPStatus.OK
 
 
-@router.route("/new/matches", methods=["GET"])
-def get_new_matches():
+@router.route("/new/matches/<club_name>", methods=["GET"])
+def get_new_matches(club_name):
 
     premier_league_matches = []
 
-    premier_league_clubs = [
-        "Arsenal",
-        "Aston Villa",
-        "Bournemouth",
-        "Brentford",
-        "Brighton & Hove Albion",
-        "Burnley",
-        "Chelsea",
-        "Crystal Palace",
-        "Everton",
-        "Fulham",
-        "Liverpool",
-        "Luton Town",
-        "Manchester City",
-        "Manchester United",
-        "Newcastle United",
-        "Nottingham Forest",
-        "Sheffield United",
-        "Tottenham Hotspur",
-        "West Ham United",
-        "Wolverhampton Wanderers",
-    ]
-
     def fetch_matches():
         params = {
-            "q": "Luton Town",
+            "q": club_name,
             "api_key": API_KEY,
         }
         search = GoogleSearch(params)
@@ -91,8 +70,10 @@ def get_new_matches():
     premier_league_matches = fetch_matches()
 
     def formatted_date(string):
-        if "yesterday" in string:
+        if "yesterday" in string or "Yesterday" in string:
             return datetime.now(timezone.utc) - (timedelta(days=1))
+        if "today" in string:
+            return datetime.now(timezone.utc)
         elif "," in string:
             return datetime.strptime(string, "%a, %b %d").replace(
                 year=datetime.now().year
