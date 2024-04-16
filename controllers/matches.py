@@ -33,6 +33,18 @@ def get_matches():
     return match_serializer.jsonify(matches, many=True), HTTPStatus.OK
 
 
+@router.route("/match/<int:match_id>", methods=["GET"])
+@secure_route
+def get_match_by_id(match_id):
+    match = db.session.query(MatchModel).get(match_id)
+    if not match:
+        return (
+                {"message": "No match found. Provide a valid id"},
+                HTTPStatus.NOT_FOUND,
+            )
+    return match_serializer.jsonify(match), HTTPStatus.OK
+
+
 @router.route("/new/matches/<club_name>", methods=["GET"])
 def get_new_matches(club_name):
 
@@ -178,3 +190,5 @@ def create():
             schema.load({"name": "Invalid name. Try again ❌"}),
             HTTPStatus.UNPROCESSABLE_ENTITY,
         )
+
+   

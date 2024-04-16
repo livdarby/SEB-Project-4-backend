@@ -6,6 +6,7 @@ from marshmallow import ValidationError, Schema, fields
 from sqlalchemy.exc import SQLAlchemyError
 
 from models.prediction import PredictionModel
+from models.match import MatchModel
 from models.user import UserModel
 from middleware.secure_route import secure_route
 
@@ -27,12 +28,18 @@ def get_predictions():
 @secure_route
 def create():
     prediction_dictionary = request.json
+    print(prediction_dictionary)
 
     try:
+        match_id = prediction_dictionary.get("match")
+        print(match_id["id"])
+        found_match = db.session.query(MatchModel).get(match_id["id"])
+        print('found: ', found_match)
+        print(g.current_user)
         prediction_model = prediction_serializer.load(prediction_dictionary)
         prediction_model.user_id = g.current_user.id
         prediction_model.date_created = datetime.now(timezone.utc)
-        prediction_model.match_id = 1
+        prediction_model.match_id = found_match.id
         db.session.add(prediction_model)
         db.session.commit()
         return prediction_serializer.jsonify(prediction_model), HTTPStatus.OK
