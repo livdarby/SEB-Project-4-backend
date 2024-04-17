@@ -157,6 +157,86 @@ with app.app_context():
                 "team_two_score": None,
                 "date_created" : datetime.now(timezone.utc)
             },
+            {
+                "match_date": "Sat, 6 Apr 2024 00:00:00 GMT",
+                "team_one_name": "Crystal Palace",
+                "team_one_score": 2,
+                "team_two_name": "Man City",
+                "team_two_score": 4,
+                "date_created" : datetime.now(timezone.utc)
+            },
+            {
+                "match_date": "Sat, 6 Apr 2024 00:00:00 GMT",
+                "team_one_name": "Wolves",
+                "team_one_score": 1,
+                "team_two_name": "West Ham",
+                "team_two_score": 2,
+                "date_created" : datetime.now(timezone.utc)
+            },
+            {
+                "match_date": "Sat, 6 Apr 2024 00:00:00 GMT",
+                "team_one_name": "Everton",
+                "team_one_score": 1,
+                "team_two_name": "Burnley",
+                "team_two_score": 0,
+                "date_created" : datetime.now(timezone.utc)
+            },
+            {
+                "match_date": "Sat, 6 Apr 2024 00:00:00 GMT",
+                "team_one_name": "Aston Villa",
+                "team_one_score": 3,
+                "team_two_name": "Brentford",
+                "team_two_score": 3,
+                "date_created" : datetime.now(timezone.utc)
+            },
+            {
+                "match_date": "Sat, 6 Apr 2024 00:00:00 GMT",
+                "team_one_name": "Fulham",
+                "team_one_score": 0,
+                "team_two_name": "Newcastle",
+                "team_two_score": 1,
+                "date_created" : datetime.now(timezone.utc)
+            },
+            {
+                "match_date": "Sat, 6 Apr 2024 00:00:00 GMT",
+                "team_one_name": "Luton Town",
+                "team_one_score": 2,
+                "team_two_name": "Bournemouth",
+                "team_two_score": 1,
+                "date_created" : datetime.now(timezone.utc)
+            },
+            {
+                "match_date": "Sat, 6 Apr 2024 00:00:00 GMT",
+                "team_one_name": "Brighton",
+                "team_one_score": 0,
+                "team_two_name": "Arsenal",
+                "team_two_score": 3,
+                "date_created" : datetime.now(timezone.utc)
+            },
+            {
+                "match_date": "Sun, 7 Apr 2024 00:00:00 GMT",
+                "team_one_name": "Man United",
+                "team_one_score": 2,
+                "team_two_name": "Liverpool",
+                "team_two_score": 2,
+                "date_created" : datetime.now(timezone.utc)
+            },
+            {
+                "match_date": "Sun, 7 Apr 2024 00:00:00 GMT",
+                "team_one_name": "Sheffield United",
+                "team_one_score": 2,
+                "team_two_name": "Chelsea",
+                "team_two_score": 2,
+                "date_created" : datetime.now(timezone.utc)
+            },
+            {
+                "match_date": "Sun, 7 Apr 2024 00:00:00 GMT",
+                "team_one_name": "Tottenham",
+                "team_one_score": 3,
+                "team_two_name": "Nottm Forest",
+                "team_two_score": 1,
+                "date_created" : datetime.now(timezone.utc)
+            },
         ]
 
         for match_data in matches_data:
@@ -254,6 +334,96 @@ with app.app_context():
                 "date_created": datetime.now(timezone.utc),
                 "user_id": user_one.id,
                 "match_id":10,
+            }, 
+            {
+                "team_one_name": "Crystal Palace",
+                "team_two_name": "Man City",
+                "team_one_score": 0,
+                "team_two_score": 3,
+                "date_created": datetime.now(timezone.utc),
+                "user_id": user_one.id,
+                "match_id":18,
+            }, 
+            {
+                "team_one_name": "Wolves",
+                "team_two_name": "West Ham",
+                "team_one_score": 1,
+                "team_two_score": 1,
+                "date_created": datetime.now(timezone.utc),
+                "user_id": user_one.id,
+                "match_id":19,
+            }, 
+            {
+                "team_one_name": "Everton",
+                "team_two_name": "Burnley",
+                "team_one_score": 1,
+                "team_two_score": 0,
+                "date_created": datetime.now(timezone.utc),
+                "user_id": user_one.id,
+                "match_id":20,
+            }, 
+            {
+                "team_one_name": "Aston Villa",
+                "team_two_name": "Brentford",
+                "team_one_score": 2,
+                "team_two_score": 1,
+                "date_created": datetime.now(timezone.utc),
+                "user_id": user_one.id,
+                "match_id":21,
+            }, 
+            {
+                "team_one_name": "Fulham",
+                "team_two_name": "Newcastle",
+                "team_one_score": 1,
+                "team_two_score": 1,
+                "date_created": datetime.now(timezone.utc),
+                "user_id": user_one.id,
+                "match_id":22,
+            }, 
+            {
+                "team_one_name": "Luton Town",
+                "team_two_name": "Bournemouth",
+                "team_one_score": 1,
+                "team_two_score": 1,
+                "date_created": datetime.now(timezone.utc),
+                "user_id": user_one.id,
+                "match_id":23,
+            }, 
+            {
+                "team_one_name": "Brighton",
+                "team_two_name": "Arsenal",
+                "team_one_score": 1,
+                "team_two_score": 2,
+                "date_created": datetime.now(timezone.utc),
+                "user_id": user_one.id,
+                "match_id":24,
+            }, 
+            {
+                "team_one_name": "Man United",
+                "team_two_name": "Liverpool",
+                "team_one_score": 1,
+                "team_two_score": 2,
+                "date_created": datetime.now(timezone.utc),
+                "user_id": user_one.id,
+                "match_id":25,
+            }, 
+            {
+                "team_one_name": "Sheffield United",
+                "team_two_name": "Chelsea",
+                "team_one_score": 3,
+                "team_two_score": 3,
+                "date_created": datetime.now(timezone.utc),
+                "user_id": user_one.id,
+                "match_id":26,
+            }, 
+            {
+                "team_one_name": "Tottenham",
+                "team_two_name": "Nottm Forest",
+                "team_one_score": 2,
+                "team_two_score": 1,
+                "date_created": datetime.now(timezone.utc),
+                "user_id": user_one.id,
+                "match_id":27,
             }, 
         ]
 
