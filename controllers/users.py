@@ -71,3 +71,25 @@ def get_current_user():
         return {"message": "Log in to continue"}, HTTPStatus.UNAUTHORIZED
     current_user = db.session.query(UserModel).get(user)
     return user_serializer.jsonify(current_user), HTTPStatus.OK
+
+
+@router.route("/user/<int:user_id>", methods=["PUT"])
+@secure_route
+def edit_user(user_id):
+    try:
+        user = g.current_user.id
+        if not user:
+            return {"message": "Log in to continue"}, HTTPStatus.UNAUTHORIZED
+        current_user = db.session.query(UserModel).get(user)
+        user_dictionary = request.json
+        user = user_serializer.load(
+            user_dictionary, instance=current_user, partial=True
+        )
+        db.session.add(user)
+        db.session.commit()
+        return user_serializer.jsonify(user)
+    except ValidationError as e:
+        return {
+            "errors": e.messages,
+            "message": "You have missed a required field. Please try again",
+        }, HTTPStatus.UNPROCESSABLE_ENTITY
