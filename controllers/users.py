@@ -93,3 +93,12 @@ def edit_user(user_id):
             "errors": e.messages,
             "message": "You have missed a required field. Please try again",
         }, HTTPStatus.UNPROCESSABLE_ENTITY
+
+@router.route('/users', methods=["GET"])
+@secure_route
+def get_all_users():
+    try:
+        users = UserModel.query.all()
+        return user_serializer.jsonify(users, many=True), HTTPStatus.OK        
+    except SQLAlchemyError:
+        return {"message" : "There has been an error"}
