@@ -85,3 +85,16 @@ def get_all_user_predictions(user_id):
     )
     print(prediction_serializer.jsonify(predictions, many=True))
     return prediction_serializer.jsonify(predictions, many=True), HTTPStatus.OK
+
+@router.route("/predictions/<int:prediction_id>", methods=["PUT"])
+@secure_route
+def editPrediction(prediction_id):
+    try:
+        prediction = db.session.query(PredictionModel).get(prediction_id)
+        prediction_dictionary = request.json
+        edited_prediction = prediction_serializer.load(prediction_dictionary, instance=prediction, partial=True)
+        db.session.add(edited_prediction)
+        db.session.commit()
+        return prediction_serializer.jsonify(edited_prediction)
+    except SQLAlchemyError as e:
+        return {"errors" : e.messages, "message": "There has been an error"}
