@@ -138,7 +138,7 @@ def check_user_predictions(user_id):
         ):
             total_points.append(1)
         print(total_points)
-
+    print(total_points, filtered_predictions)
     sum_points = sum(total_points)
     print((sum_points))
 
@@ -146,6 +146,32 @@ def check_user_predictions(user_id):
         {"message": sum_points},
         HTTPStatus.OK,
     )
+
+@router.route("/predictionresult/<int:prediction_id>")
+@secure_route
+def check_prediction(prediction_id):
+    try:
+        prediction = db.session.query(PredictionModel).get(prediction_id)
+        matches = MatchModel.query.all()
+        filtered_matches = []
+        for match in matches:
+            if match.id == prediction.match.id:
+                filtered_matches.append(match)
+        match = filtered_matches[0]
+        print(prediction, match)
+        if prediction.team_one_score == match.team_one_score and prediction.team_two_score == match.team_two_score:
+            points = 3
+        elif prediction.team_one_score == prediction.team_two_score and match.team_one_score == match.team_two_score:
+            points = 1
+        elif prediction.team_one_score > prediction.team_two_score and match.team_one_score > match.team_two_score:
+            points = 1
+        elif prediction.team_one_score < prediction.team_two_score and match.team_one_score < match.team_two_score:
+            points = 1
+        else:
+            points = 0
+        return {"points": points}, HTTPStatus.OK
+    except SQLAlchemyError:
+        pass
 
 
 @router.route("/predictions/<int:prediction_id>", methods=["PUT"])
