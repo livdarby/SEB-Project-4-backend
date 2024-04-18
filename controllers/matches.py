@@ -16,14 +16,17 @@ from config.environment import API_KEY
 # we need to check if a match already exists before posting it
 
 from models.match import MatchModel
+from models.prediction import PredictionModel
 from middleware.secure_route import secure_route
 
 from app import db
 from serializers.match import MatchSerializer
+from serializers.prediction import PredictionSerializer
 
 router = Blueprint("matches", __name__)
 
 match_serializer = MatchSerializer()
+prediction_serializer = PredictionSerializer()
 
 
 @router.route("/matches", methods=["GET"])
@@ -33,15 +36,37 @@ def get_matches():
     return match_serializer.jsonify(matches, many=True), HTTPStatus.OK
 
 
+# @router.route("/matches/<int:user_id>", methods=["GET"])
+# def get_matches_and_predictions_by_user(user_id):
+#     matches = MatchModel.query.all()
+#     print(datetime.now(timezone.utc))
+#     filtered_matches = []
+#     for match in matches:
+#         if datetime.strptime(match.match_date, "%a, %d %b %Y %H:%M:%S %Z").replace(
+#             tzinfo=timezone.utc) < datetime.now(timezone.utc):
+#             filtered_matches.append(match)
+#     # This successfully gives all matches that have already occurred!
+#     filtered_predictions = []
+#     for match in filtered_matches:
+#         predictions = db.session.query(PredictionModel).get(match.id)
+#         if predictions:
+#             filtered_predictions.append(predictions)
+#             print("Predictions: ", predictions.id) 
+#         # These are the predictions corresponding to each match that has occurred
+        
+
+#     return prediction_serializer.jsonify(filtered_predictions, many=True), HTTPStatus.OK
+
+
 @router.route("/match/<int:match_id>", methods=["GET"])
 @secure_route
 def get_match_by_id(match_id):
     match = db.session.query(MatchModel).get(match_id)
     if not match:
         return (
-                {"message": "No match found. Provide a valid id"},
-                HTTPStatus.NOT_FOUND,
-            )
+            {"message": "No match found. Provide a valid id"},
+            HTTPStatus.NOT_FOUND,
+        )
     return match_serializer.jsonify(match), HTTPStatus.OK
 
 
@@ -119,7 +144,14 @@ def create():
     match_dictionary = request.json
 
     def check_if_match_existing(team_one_name, team_two_name):
-        match = db.session.query(MatchModel).filter(MatchModel.team_one_name == team_one_name, MatchModel.team_two_name == team_two_name).first()
+        match = (
+            db.session.query(MatchModel)
+            .filter(
+                MatchModel.team_one_name == team_one_name,
+                MatchModel.team_two_name == team_two_name,
+            )
+            .first()
+        )
         return match
 
     try:
@@ -155,7 +187,9 @@ def create():
             # take team_one_name and team_two_name and sort alphabetically
             # check if they already exist in the db
 
-            existing_match = check_if_match_existing(match_model.team_one_name, match_model.team_two_name)
+            existing_match = check_if_match_existing(
+                match_model.team_one_name, match_model.team_two_name
+            )
             if existing_match:
                 pass
             else:
@@ -190,5 +224,3 @@ def create():
             schema.load({"name": "Invalid name. Try again ❌"}),
             HTTPStatus.UNPROCESSABLE_ENTITY,
         )
-
-   

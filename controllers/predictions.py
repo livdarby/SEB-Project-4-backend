@@ -1,7 +1,7 @@
 from http import HTTPStatus
 import logging
 from datetime import datetime, timezone
-from flask import Blueprint, request, g
+from flask import Blueprint, request, g, jsonify
 from marshmallow import ValidationError, Schema, fields
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -34,7 +34,7 @@ def create():
         match_id = prediction_dictionary.get("match")
         print(match_id["id"])
         found_match = db.session.query(MatchModel).get(match_id["id"])
-        print('found: ', found_match)
+        print("found: ", found_match)
         print(g.current_user)
         prediction_model = prediction_serializer.load(prediction_dictionary)
         prediction_model.user_id = g.current_user.id
@@ -86,15 +86,79 @@ def get_all_user_predictions(user_id):
     print(prediction_serializer.jsonify(predictions, many=True))
     return prediction_serializer.jsonify(predictions, many=True), HTTPStatus.OK
 
+
+@router.route("/checkpredictions/<int:user_id>", methods=["GET"])
+@secure_route
+def check_user_predictions(user_id):
+    user = db.session.query(UserModel).get(user_id)
+    if not user:
+        return (
+            {"message": "No user found. Provide a valid id"},
+            HTTPStatus.NOT_FOUND,
+        )
+    if user.id != g.current_user.id:
+        return {
+            "message": "You are not authorised to get these predictions"
+        }, HTTPStatus.UNAUTHORIZED
+    predictions = db.session.query(PredictionModel).filter(
+        PredictionModel.user_id == user.id
+    )
+    todays_date = datetime.now(timezone.utc)
+    filtered_predictions = []
+    for prediction in predictions:
+        if (
+            datetime.strptime(
+                prediction.match.match_date, "%a, %d %b %Y %H:%M:%S %Z"
+            ).replace(tzinfo=timezone.utc)
+            < todays_date
+        ):
+            filtered_predictions.append(prediction)
+
+    total_points = []
+    for prediction in filtered_predictions:
+
+        if (
+            prediction.team_one_score == prediction.match.team_one_score
+            and prediction.team_two_score == prediction.match.team_two_score
+        ):
+            total_points.append(3)
+        elif (
+            prediction.team_one_score == prediction.team_two_score
+            and prediction.match.team_one_score == prediction.match.team_two_score
+        ):
+            total_points.append(1)
+        elif (
+            prediction.team_one_score < prediction.team_two_score
+            and prediction.match.team_one_score < prediction.match.team_two_score
+        ):
+            total_points.append(1)
+        elif (
+            prediction.team_one_score > prediction.team_two_score
+            and prediction.match.team_one_score > prediction.match.team_two_score
+        ):
+            total_points.append(1)
+        print(total_points)
+
+    sum_points = sum(total_points)
+    print((sum_points))
+
+    return (
+        {"message": sum_points},
+        HTTPStatus.OK,
+    )
+
+
 @router.route("/predictions/<int:prediction_id>", methods=["PUT"])
 @secure_route
 def editPrediction(prediction_id):
     try:
         prediction = db.session.query(PredictionModel).get(prediction_id)
         prediction_dictionary = request.json
-        edited_prediction = prediction_serializer.load(prediction_dictionary, instance=prediction, partial=True)
+        edited_prediction = prediction_serializer.load(
+            prediction_dictionary, instance=prediction, partial=True
+        )
         db.session.add(edited_prediction)
         db.session.commit()
         return prediction_serializer.jsonify(edited_prediction)
     except SQLAlchemyError as e:
-        return {"errors" : e.messages, "message": "There has been an error"}
+        return {"errors": e.messages, "message": "There has been an error"}
