@@ -12,6 +12,8 @@ marshmallow-sqlalchemy = "*"
 flask-bcrypt = "*"
 pyjwt = "*"
 google-search-results = "*"
+flask-cors = "*"
+gunicorn = "*"
 
 [dev-packages]
 
