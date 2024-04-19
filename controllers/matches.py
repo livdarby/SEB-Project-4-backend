@@ -36,28 +36,6 @@ def get_matches():
     return match_serializer.jsonify(matches, many=True), HTTPStatus.OK
 
 
-# @router.route("/matches/<int:user_id>", methods=["GET"])
-# def get_matches_and_predictions_by_user(user_id):
-#     matches = MatchModel.query.all()
-#     print(datetime.now(timezone.utc))
-#     filtered_matches = []
-#     for match in matches:
-#         if datetime.strptime(match.match_date, "%a, %d %b %Y %H:%M:%S %Z").replace(
-#             tzinfo=timezone.utc) < datetime.now(timezone.utc):
-#             filtered_matches.append(match)
-#     # This successfully gives all matches that have already occurred!
-#     filtered_predictions = []
-#     for match in filtered_matches:
-#         predictions = db.session.query(PredictionModel).get(match.id)
-#         if predictions:
-#             filtered_predictions.append(predictions)
-#             print("Predictions: ", predictions.id) 
-#         # These are the predictions corresponding to each match that has occurred
-        
-
-#     return prediction_serializer.jsonify(filtered_predictions, many=True), HTTPStatus.OK
-
-
 @router.route("/match/<int:match_id>", methods=["GET"])
 @secure_route
 def get_match_by_id(match_id):
