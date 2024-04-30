@@ -140,6 +140,8 @@ def get_accuracy_score(user_id):
 def get_all_accuracy():
     try:
         users = UserModel.query.all()
+        users = users[1::]
+        print(users)
         user_info = []
         for user in users:
             predictions = PredictionModel.query.all()
@@ -156,6 +158,8 @@ def get_all_accuracy():
                     and prediction.team_two_score == match.team_two_score
                 ):
                     accuracy_list.append(1)
+
+            print(accuracy_list)
             user_info.append(
                 { "user_id" : user.id,
                     "number-of-accurate-games": sum(accuracy_list),

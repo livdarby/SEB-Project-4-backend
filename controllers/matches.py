@@ -116,7 +116,7 @@ def get_new_matches(club_name):
 
 
 @router.route("/matches", methods=["POST"])
-# @secure_route
+@secure_route
 def create():
 
     match_dictionary = request.json
@@ -133,6 +133,8 @@ def create():
         return match
 
     try:
+        if g.current_user.id != 1:
+            return {"message": "Unauthorised to post a match"}, HTTPStatus.UNAUTHORIZED
         for match in match_dictionary:
 
             # we need some logic to check if each object in match['teams'] contains a key 'score'
@@ -169,7 +171,9 @@ def create():
                 match_model.team_one_name, match_model.team_two_name
             )
             if existing_match:
-                pass
+                return {
+                    "message": "Match already exists. Please try again"
+                }, HTTPStatus.CONFLICT
             else:
                 db.session.add(match_model)
                 db.session.commit()

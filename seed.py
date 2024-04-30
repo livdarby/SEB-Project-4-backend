@@ -11,7 +11,11 @@ with app.app_context():
         db.drop_all()
         db.create_all()
 
-        users_data = [
+        users_data = [{
+                "username": "admin",
+                "email": "oliviadarby@live.co.uk",
+                "password": "Admin1234!"
+            },
             {
                 "username": "Liv",
                 "email": "liv@me.com",
@@ -23,7 +27,7 @@ with app.app_context():
                 "email": "lee@me.com",
                 "password": "Hello123!",
                 "invite_code": "123",
-            },
+            }            
         ]
 
         for user_data in users_data:
@@ -314,7 +318,7 @@ with app.app_context():
                 "team_one_score": 2,
                 "team_two_score": 1,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 1,
+                "user_id": 2,
                 "match_id": 1,
             },
             {
@@ -323,7 +327,7 @@ with app.app_context():
                 "team_one_score": 3,
                 "team_two_score": 0,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 1,
+                "user_id": 2,
                 "match_id": 2,
             },
             {
@@ -332,7 +336,7 @@ with app.app_context():
                 "team_one_score": 1,
                 "team_two_score": 1,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 1,
+                "user_id": 2,
                 "match_id": 3,
             },
             {
@@ -341,7 +345,7 @@ with app.app_context():
                 "team_one_score": 0,
                 "team_two_score": 2,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 1,
+                "user_id": 2,
                 "match_id": 4,
             },
             {
@@ -350,7 +354,7 @@ with app.app_context():
                 "team_one_score": 1,
                 "team_two_score": 3,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 1,
+                "user_id": 2,
                 "match_id": 5,
             },
             {
@@ -359,7 +363,7 @@ with app.app_context():
                 "team_one_score": 1,
                 "team_two_score": 1,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 1,
+                "user_id": 2,
                 "match_id": 6,
             },
             {
@@ -368,7 +372,7 @@ with app.app_context():
                 "team_one_score": 4,
                 "team_two_score": 1,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 1,
+                "user_id": 2,
                 "match_id": 7,
             },
             {
@@ -377,7 +381,7 @@ with app.app_context():
                 "team_one_score": 0,
                 "team_two_score": 2,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 1,
+                "user_id": 2,
                 "match_id": 8,
             },
             {
@@ -386,7 +390,7 @@ with app.app_context():
                 "team_one_score": 0,
                 "team_two_score": 1,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 1,
+                "user_id": 2,
                 "match_id": 9,
             },
             {
@@ -395,7 +399,7 @@ with app.app_context():
                 "team_one_score": 4,
                 "team_two_score": 1,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 1,
+                "user_id": 2,
                 "match_id": 10,
             },
             #  MATCH WEEK 32, USER 1, MATCH ID 18 - 27
@@ -405,7 +409,7 @@ with app.app_context():
                 "team_one_score": 0,
                 "team_two_score": 3,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 1,
+                "user_id": 2,
                 "match_id": 18,
             },
             {
@@ -414,7 +418,7 @@ with app.app_context():
                 "team_one_score": 1,
                 "team_two_score": 1,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 1,
+                "user_id": 2,
                 "match_id": 19,
             },
             {
@@ -423,7 +427,7 @@ with app.app_context():
                 "team_one_score": 1,
                 "team_two_score": 0,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 1,
+                "user_id": 2,
                 "match_id": 20,
             },
             {
@@ -432,7 +436,7 @@ with app.app_context():
                 "team_one_score": 2,
                 "team_two_score": 1,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 1,
+                "user_id": 2,
                 "match_id": 21,
             },
             {
@@ -441,7 +445,7 @@ with app.app_context():
                 "team_one_score": 1,
                 "team_two_score": 1,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 1,
+                "user_id": 2,
                 "match_id": 22,
             },
             {
@@ -450,7 +454,7 @@ with app.app_context():
                 "team_one_score": 1,
                 "team_two_score": 1,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 1,
+                "user_id": 2,
                 "match_id": 23,
             },
             {
@@ -459,7 +463,7 @@ with app.app_context():
                 "team_one_score": 1,
                 "team_two_score": 2,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 1,
+                "user_id": 2,
                 "match_id": 24,
             },
             {
@@ -468,7 +472,7 @@ with app.app_context():
                 "team_one_score": 1,
                 "team_two_score": 2,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 1,
+                "user_id": 2,
                 "match_id": 25,
             },
             {
@@ -477,7 +481,7 @@ with app.app_context():
                 "team_one_score": 3,
                 "team_two_score": 3,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 1,
+                "user_id": 2,
                 "match_id": 26,
             },
             {
@@ -486,7 +490,7 @@ with app.app_context():
                 "team_one_score": 2,
                 "team_two_score": 1,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 1,
+                "user_id": 2,
                 "match_id": 27,
             },
             # MATCH WEEK 33, USER 2, MATCH ID 1 - 10
@@ -496,7 +500,7 @@ with app.app_context():
                 "team_one_score": 1,
                 "team_two_score": 1,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 2,
+                "user_id": 3,
                 "match_id": 1,
             },
             {
@@ -505,7 +509,7 @@ with app.app_context():
                 "team_one_score": 3,
                 "team_two_score": 3,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 2,
+                "user_id": 3,
                 "match_id": 2,
             },
             {
@@ -514,7 +518,7 @@ with app.app_context():
                 "team_one_score": 1,
                 "team_two_score": 0,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 2,
+                "user_id": 3,
                 "match_id": 3,
             },
             {
@@ -523,7 +527,7 @@ with app.app_context():
                 "team_one_score": 0,
                 "team_two_score": 1,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 2,
+                "user_id": 3,
                 "match_id": 4,
             },
             {
@@ -532,7 +536,7 @@ with app.app_context():
                 "team_one_score": 1,
                 "team_two_score": 4,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 2,
+                "user_id": 3,
                 "match_id": 5,
             },
             {
@@ -541,7 +545,7 @@ with app.app_context():
                 "team_one_score": 2,
                 "team_two_score": 1,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 2,
+                "user_id": 3,
                 "match_id": 6,
             },
             {
@@ -550,7 +554,7 @@ with app.app_context():
                 "team_one_score": 3,
                 "team_two_score": 2,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 2,
+                "user_id": 3,
                 "match_id": 7,
             },
             {
@@ -559,7 +563,7 @@ with app.app_context():
                 "team_one_score": 1,
                 "team_two_score": 1,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 2,
+                "user_id": 3,
                 "match_id": 8,
             },
             {
@@ -568,7 +572,7 @@ with app.app_context():
                 "team_one_score": 1,
                 "team_two_score": 2,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 2,
+                "user_id": 3,
                 "match_id": 9,
             },
             {
@@ -577,7 +581,7 @@ with app.app_context():
                 "team_one_score": 6,
                 "team_two_score": 1,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 2,
+                "user_id": 3,
                 "match_id": 10,
             },
             # MATCH WEEK 32, USER 2, MATCH ID 18 - 27
@@ -587,7 +591,7 @@ with app.app_context():
                 "team_one_score": 0,
                 "team_two_score": 1,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 2,
+                "user_id": 3,
                 "match_id": 18,
             },
             {
@@ -596,7 +600,7 @@ with app.app_context():
                 "team_one_score": 1,
                 "team_two_score": 2,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 2,
+                "user_id": 3,
                 "match_id": 19,
             },
             {
@@ -605,7 +609,7 @@ with app.app_context():
                 "team_one_score": 1,
                 "team_two_score": 0,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 2,
+                "user_id": 3,
                 "match_id": 20,
             },
             {
@@ -614,7 +618,7 @@ with app.app_context():
                 "team_one_score": 2,
                 "team_two_score": 2,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 2,
+                "user_id": 3,
                 "match_id": 21,
             },
             {
@@ -623,7 +627,7 @@ with app.app_context():
                 "team_one_score": 3,
                 "team_two_score": 4,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 2,
+                "user_id": 3,
                 "match_id": 22,
             },
             {
@@ -632,7 +636,7 @@ with app.app_context():
                 "team_one_score": 3,
                 "team_two_score": 1,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 2,
+                "user_id": 3,
                 "match_id": 23,
             },
             {
@@ -641,7 +645,7 @@ with app.app_context():
                 "team_one_score": 1,
                 "team_two_score": 1,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 2,
+                "user_id": 3,
                 "match_id": 24,
             },
             {
@@ -650,7 +654,7 @@ with app.app_context():
                 "team_one_score": 1,
                 "team_two_score": 3,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 2,
+                "user_id": 3,
                 "match_id": 25,
             },
             {
@@ -659,7 +663,7 @@ with app.app_context():
                 "team_one_score": 4,
                 "team_two_score": 3,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 2,
+                "user_id": 3,
                 "match_id": 26,
             },
             {
@@ -668,7 +672,7 @@ with app.app_context():
                 "team_one_score": 2,
                 "team_two_score": 1,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 2,
+                "user_id": 3,
                 "match_id": 27,
             },
             # MATCH WEEK 34, USER 1, MATCH ID 11 - 17
@@ -678,7 +682,7 @@ with app.app_context():
                 "team_one_score": 1,
                 "team_two_score": 2,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 1,
+                "user_id": 2,
                 "match_id": 11,
             },
             {
@@ -687,7 +691,7 @@ with app.app_context():
                 "team_one_score": 1,
                 "team_two_score": 3,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 1,
+                "user_id": 2,
                 "match_id": 12,
             },
             {
@@ -696,7 +700,7 @@ with app.app_context():
                 "team_one_score": 3,
                 "team_two_score": 0,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 1,
+                "user_id": 2,
                 "match_id": 13,
             },
             {
@@ -705,7 +709,7 @@ with app.app_context():
                 "team_one_score": 1,
                 "team_two_score": 1,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 1,
+                "user_id": 2,
                 "match_id": 14,
             },
             {
@@ -714,7 +718,7 @@ with app.app_context():
                 "team_one_score": 3,
                 "team_two_score": 0,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 1,
+                "user_id": 2,
                 "match_id": 15,
             },
             {
@@ -723,7 +727,7 @@ with app.app_context():
                 "team_one_score": 2,
                 "team_two_score": 2,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 1,
+                "user_id": 2,
                 "match_id": 16,
             },
             {
@@ -732,7 +736,7 @@ with app.app_context():
                 "team_one_score": 2,
                 "team_two_score": 1,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 1,
+                "user_id": 2,
                 "match_id": 17,
             },
             # MATCH WEEK 34, USER 2, MATCH ID 11 - 17
@@ -742,7 +746,7 @@ with app.app_context():
                 "team_one_score": 1,
                 "team_two_score": 1,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 2,
+                "user_id": 3,
                 "match_id": 11,
             },
             {
@@ -751,7 +755,7 @@ with app.app_context():
                 "team_one_score": 2,
                 "team_two_score": 2,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 2,
+                "user_id": 3,
                 "match_id": 12,
             },
             {
@@ -760,7 +764,7 @@ with app.app_context():
                 "team_one_score": 1,
                 "team_two_score": 3,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 2,
+                "user_id": 3,
                 "match_id": 13,
             },
             {
@@ -769,7 +773,7 @@ with app.app_context():
                 "team_one_score": 2,
                 "team_two_score": 1,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 2,
+                "user_id": 3,
                 "match_id": 14,
             },
             {
@@ -778,7 +782,7 @@ with app.app_context():
                 "team_one_score": 1,
                 "team_two_score": 0,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 2,
+                "user_id": 3,
                 "match_id": 15,
             },
             {
@@ -787,7 +791,7 @@ with app.app_context():
                 "team_one_score": 1,
                 "team_two_score": 2,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 2,
+                "user_id": 3,
                 "match_id": 16,
             },
             {
@@ -796,7 +800,7 @@ with app.app_context():
                 "team_one_score": 3,
                 "team_two_score": 1,
                 "date_created": datetime.now(timezone.utc),
-                "user_id": 2,
+                "user_id": 3,
                 "match_id": 17,
             },
             
