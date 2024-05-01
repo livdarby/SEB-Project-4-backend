@@ -8,6 +8,7 @@ from marshmallow import ValidationError, Schema, fields
 from sqlalchemy.exc import SQLAlchemyError
 from serpapi import GoogleSearch
 from config.environment import API_KEY
+from sqlalchemy import func
 
 # Could we do a get to clean the data
 # And a post to post this data to the db?
@@ -120,67 +121,37 @@ def get_new_matches(club_name):
 def create():
 
     match_dictionary = request.json
+    match_model = match_serializer.load(match_dictionary)
 
     def check_if_match_existing(team_one_name, team_two_name):
         match = (
             db.session.query(MatchModel)
             .filter(
-                MatchModel.team_one_name == team_one_name,
-                MatchModel.team_two_name == team_two_name,
+                func.lower(MatchModel.team_one_name) == func.lower(team_one_name),
+                func.lower(MatchModel.team_two_name) == func.lower(team_two_name),
             )
             .first()
         )
+        print(match)
         return match
 
     try:
-        if g.current_user.id != 1:
-            return {"message": "Unauthorised to post a match"}, HTTPStatus.UNAUTHORIZED
-        for match in match_dictionary:
 
-            # we need some logic to check if each object in match['teams'] contains a key 'score'
-            # if yes, we need to assign the value to team_one_score and team_two_score
-            # if not, the scores should be None
-            filtered_scores = []
+        existing_match = check_if_match_existing(
+            match_model.team_one_name, match_model.team_two_name
+        )
 
-            for team in match["teams"]:  # here, we have identified each team object
-                if "score" in team:
-                    filtered_scores.append(int(team["score"]))
+        if existing_match:
+            return {"message": "Match already exists."}, HTTPStatus.CONFLICT
 
-            if filtered_scores:
-                team_one_score = filtered_scores[0]
-                team_two_score = filtered_scores[1]
-            else:
-                team_one_score = None
-                team_two_score = None
+        datetime_object = datetime.strptime(match_model.match_date, "%Y-%m-%dT%H:%M")
+        formatted_string = datetime_object.strftime("%a, %d %b %Y %H:%M:%S GMT")
+        match_model.match_date = formatted_string
+        match_model.date_created = datetime.now(timezone.utc)
 
-            match_model = match_serializer.load(
-                {
-                    "match_date": match["date"],
-                    "date_created": datetime.now().strftime("%m/%d/%Y, %H:%M:%S"),
-                    "team_one_name": match["teams"][0]["name"],
-                    "team_one_score": team_one_score,
-                    "team_two_score": team_two_score,
-                    "team_two_name": match["teams"][1]["name"],
-                }
-            )
-            # we need to check whether the match already exists in the db
-            # take team_one_name and team_two_name and sort alphabetically
-            # check if they already exist in the db
-
-            existing_match = check_if_match_existing(
-                match_model.team_one_name, match_model.team_two_name
-            )
-            if existing_match:
-                return {
-                    "message": "Match already exists. Please try again"
-                }, HTTPStatus.CONFLICT
-            else:
-                db.session.add(match_model)
-                db.session.commit()
-
-            # db.session.add(match_model)
-
-        return {"message": "Matches successfully posted to the db"}, HTTPStatus.OK
+        db.session.add(match_model)
+        db.session.commit()
+        return match_serializer.jsonify(match_model), HTTPStatus.OK
 
     except ValidationError as e:
         return {
