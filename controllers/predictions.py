@@ -171,7 +171,7 @@ def check_prediction(prediction_id):
             points = 0
         return {"points": points}, HTTPStatus.OK
     except SQLAlchemyError:
-        pass
+        return {"message" : "There has been an error"}
 
 
 @router.route("/predictions/<int:prediction_id>", methods=["PUT"])

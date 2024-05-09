@@ -140,6 +140,7 @@ def get_accuracy_score(user_id):
 def get_all_accuracy():
     try:
         users = UserModel.query.all()
+        print(users)
         users = users[1::]
         print(users)
         user_info = []

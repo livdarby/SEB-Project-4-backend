@@ -10,6 +10,7 @@ class MatchModel(db.Model):
     team_two_score = db.Column(db.Integer, nullable=True)
     date_created = db.Column(db.Text, nullable=True)
     match_date = db.Column(db.Text, nullable=False)
+    match_week = db.Column(db.Integer, nullable=False)
     # prediction_id = db.Column(db.Integer, db.ForeignKey("predictions.id"), nullable=True)
 
     # prediction = db.relationship("PredictionModel", backref="predictions")

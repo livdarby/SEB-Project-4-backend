@@ -46,6 +46,7 @@ with app.app_context():
                 "team_two_name": "Tottenham",
                 "team_two_score": 0,
                 "date_created": datetime.now(timezone.utc),
+                "match_week" : 33
             },
             {
                 "match_date": "Sat, 13 Apr 2024 00:00:00 GMT",
@@ -54,6 +55,7 @@ with app.app_context():
                 "team_two_name": "Luton Town",
                 "team_two_score": 1,
                 "date_created": datetime.now(timezone.utc),
+                "match_week" : 33 
             },
             {
                 "match_date": "Sat, 13 Apr 2024 00:00:00 GMT",
@@ -62,6 +64,7 @@ with app.app_context():
                 "team_two_name": "Brighton",
                 "team_two_score": 1,
                 "date_created": datetime.now(timezone.utc),
+                "match_week" :33
             },
             {
                 "match_date": "Sun, 14 Apr 2024 00:00:00 GMT",
@@ -70,6 +73,7 @@ with app.app_context():
                 "team_two_name": "Crystal Palace",
                 "team_two_score": 1,
                 "date_created": datetime.now(timezone.utc),
+                "match_week" : 33 
             },
             {
                 "match_date": "Sun, 14 Apr 2024 00:00:00 GMT",
@@ -78,6 +82,7 @@ with app.app_context():
                 "team_two_name": "Aston Villa",
                 "team_two_score": 2,
                 "date_created": datetime.now(timezone.utc),
+                "match_week" : 33
             },
             {
                 "match_date": "Sat, 13 Apr 2024 00:00:00 GMT",
@@ -86,6 +91,7 @@ with app.app_context():
                 "team_two_name": "Sheffield United",
                 "team_two_score": 0,
                 "date_created": datetime.now(timezone.utc),
+                "match_week" : 33
             },
             {
                 "match_date": "Sat, 13 Apr 2024 00:00:00 GMT",
@@ -94,6 +100,7 @@ with app.app_context():
                 "team_two_name": "Wolves",
                 "team_two_score": 2,
                 "date_created": datetime.now(timezone.utc),
+                "match_week" : 33
             },
             {
                 "match_date": "Sat, 13 Apr 2024 00:00:00 GMT",
@@ -102,6 +109,7 @@ with app.app_context():
                 "team_two_name": "Man United",
                 "team_two_score": 2,
                 "date_created": datetime.now(timezone.utc),
+                "match_week" : 33
             },
             {
                 "match_date": "Sun, 14 Apr 2024 00:00:00 GMT",
@@ -110,6 +118,7 @@ with app.app_context():
                 "team_two_name": "Fulham",
                 "team_two_score": 2,
                 "date_created": datetime.now(timezone.utc),
+                "match_week" : 33
             },
             {
                 "match_date": "Mon, 15 Apr 2024 00:00:00 GMT",
@@ -118,6 +127,7 @@ with app.app_context():
                 "team_two_name": "Everton",
                 "team_two_score": 0,
                 "date_created": datetime.now(timezone.utc),
+                "match_week" : 33
             },
             {
                 "match_date": "Sat, 20 Apr 2024 00:00:00 GMT",
@@ -126,6 +136,7 @@ with app.app_context():
                 "team_two_name": "Brentford",
                 "team_two_score": 5,
                 "date_created": datetime.now(timezone.utc),
+                "match_week" : 34
             },
             {
                 "match_date": "Sat, 20 Apr 2024 00:00:00 GMT",
@@ -134,6 +145,7 @@ with app.app_context():
                 "team_two_name": "Arsenal",
                 "team_two_score": 2,
                 "date_created": datetime.now(timezone.utc),
+                "match_week" :34
             },
             {
                 "match_date": "Sun, 21 Apr 2024 00:00:00 GMT",
@@ -142,6 +154,7 @@ with app.app_context():
                 "team_two_name": "West Ham",
                 "team_two_score": 2,
                 "date_created": datetime.now(timezone.utc),
+                "match_week" :34
             },
             {
                 "match_date": "Sun, 21 Apr 2024 00:00:00 GMT",
@@ -150,6 +163,7 @@ with app.app_context():
                 "team_two_name": "Liverpool",
                 "team_two_score": 3,
                 "date_created": datetime.now(timezone.utc),
+                "match_week" : 34
             },
             {
                 "match_date": "Sat, 20 Apr 2024 00:00:00 GMT",
@@ -158,6 +172,7 @@ with app.app_context():
                 "team_two_name": "Burnley",
                 "team_two_score": 4,
                 "date_created": datetime.now(timezone.utc),
+                "match_week" : 34
             },
             {
                 "match_date": "Sun, 21 Apr 2024 00:00:00 GMT",
@@ -166,6 +181,7 @@ with app.app_context():
                 "team_two_name": "Nottm Forest",
                 "team_two_score": 0,
                 "date_created": datetime.now(timezone.utc),
+                "match_week" : 34
             },
             {
                 "match_date": "Sun, 21 Apr 2024 00:00:00 GMT",
@@ -174,6 +190,7 @@ with app.app_context():
                 "team_two_name": "Bournemouth",
                 "team_two_score": 1,
                 "date_created": datetime.now(timezone.utc),
+                "match_week" : 34 
             },
             {
                 "match_date": "Sat, 6 Apr 2024 00:00:00 GMT",
@@ -182,6 +199,7 @@ with app.app_context():
                 "team_two_name": "Man City",
                 "team_two_score": 4,
                 "date_created": datetime.now(timezone.utc),
+                "match_week" : 32
             },
             {
                 "match_date": "Sat, 6 Apr 2024 00:00:00 GMT",
@@ -190,6 +208,7 @@ with app.app_context():
                 "team_two_name": "West Ham",
                 "team_two_score": 2,
                 "date_created": datetime.now(timezone.utc),
+                "match_week" : 32
             },
             {
                 "match_date": "Sat, 6 Apr 2024 00:00:00 GMT",
@@ -198,6 +217,7 @@ with app.app_context():
                 "team_two_name": "Burnley",
                 "team_two_score": 0,
                 "date_created": datetime.now(timezone.utc),
+                "match_week" : 32
             },
             {
                 "match_date": "Sat, 6 Apr 2024 00:00:00 GMT",
@@ -206,6 +226,7 @@ with app.app_context():
                 "team_two_name": "Brentford",
                 "team_two_score": 3,
                 "date_created": datetime.now(timezone.utc),
+                "match_week" : 32
             },
             {
                 "match_date": "Sat, 6 Apr 2024 00:00:00 GMT",
@@ -214,6 +235,7 @@ with app.app_context():
                 "team_two_name": "Newcastle",
                 "team_two_score": 1,
                 "date_created": datetime.now(timezone.utc),
+                "match_week" : 32
             },
             {
                 "match_date": "Sat, 6 Apr 2024 00:00:00 GMT",
@@ -222,6 +244,7 @@ with app.app_context():
                 "team_two_name": "Bournemouth",
                 "team_two_score": 1,
                 "date_created": datetime.now(timezone.utc),
+                "match_week" : 32
             },
             {
                 "match_date": "Sat, 6 Apr 2024 00:00:00 GMT",
@@ -230,6 +253,7 @@ with app.app_context():
                 "team_two_name": "Arsenal",
                 "team_two_score": 3,
                 "date_created": datetime.now(timezone.utc),
+                "match_week" : 32
             },
             {
                 "match_date": "Sun, 7 Apr 2024 00:00:00 GMT",
@@ -238,6 +262,7 @@ with app.app_context():
                 "team_two_name": "Liverpool",
                 "team_two_score": 2,
                 "date_created": datetime.now(timezone.utc),
+                "match_week" : 32
             },
             {
                 "match_date": "Sun, 7 Apr 2024 00:00:00 GMT",
@@ -246,6 +271,7 @@ with app.app_context():
                 "team_two_name": "Chelsea",
                 "team_two_score": 2,
                 "date_created": datetime.now(timezone.utc),
+                "match_week" : 32
             },
             {
                 "match_date": "Sun, 7 Apr 2024 00:00:00 GMT",
@@ -254,6 +280,7 @@ with app.app_context():
                 "team_two_name": "Nottm Forest",
                 "team_two_score": 1,
                 "date_created": datetime.now(timezone.utc),
+                "match_week" : 32
             },
             {
                 "match_date": "Tue, 23 Apr 2024 00:00:00 GMT",
@@ -262,6 +289,7 @@ with app.app_context():
                 "team_two_name": "Chelsea",
                 "team_two_score": None,
                 "date_created": datetime.now(timezone.utc),
+                "match_week" : 29
             },
             {
                 "match_date": "Wed, 24 Apr 2024 00:00:00 GMT",
@@ -270,6 +298,7 @@ with app.app_context():
                 "team_two_name": "Bournemouth",
                 "team_two_score": None,
                 "date_created": datetime.now(timezone.utc),
+                "match_week" : 29
             },
             {
                 "match_date": "Wed, 24 Apr 2024 00:00:00 GMT",
@@ -278,6 +307,7 @@ with app.app_context():
                 "team_two_name": "Newcastle",
                 "team_two_score": None,
                 "date_created": datetime.now(timezone.utc),
+                "match_week" : 29
             },
             {
                 "match_date": "Wed, 24 Apr 2024 00:00:00 GMT",
@@ -286,6 +316,7 @@ with app.app_context():
                 "team_two_name": "Sheffield United",
                 "team_two_score": None,
                 "date_created": datetime.now(timezone.utc),
+                "match_week" : 29
             },
             {
                 "match_date": "Wed, 24 Apr 2024 00:00:00 GMT",
@@ -294,6 +325,7 @@ with app.app_context():
                 "team_two_name": "Liverpool",
                 "team_two_score": None,
                 "date_created": datetime.now(timezone.utc),
+                "match_week" : 29
             },
             {
                 "match_date": "Wed, 24 Apr 2024 00:00:00 GMT",
@@ -302,6 +334,7 @@ with app.app_context():
                 "team_two_name": "Man City",
                 "team_two_score": None,
                 "date_created": datetime.now(timezone.utc),
+                "match_week" : 29
             },
         ]
 
