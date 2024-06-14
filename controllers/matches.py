@@ -177,3 +177,48 @@ def create():
             schema.load({"name": "Invalid name. Try again ❌"}),
             HTTPStatus.UNPROCESSABLE_ENTITY,
         )
+
+
+@router.route("/scores", methods=["PUT"])
+@secure_route
+def update_score():
+    try:
+
+        # Get the match from the database using the two team names
+
+        match_dictionary = request.json
+
+        def check_match_exists(team_one_name, team_two_name):
+            match = (
+                db.session.query(MatchModel)
+                .filter(
+                    func.lower(MatchModel.team_one_name) == func.lower(team_one_name),
+                    func.lower(MatchModel.team_two_name) == func.lower(team_two_name),
+                )
+                .first()
+            )
+            return match
+
+        existing_match = check_match_exists(
+            match_dictionary["team_one_name"], match_dictionary["team_two_name"]
+        )
+
+        if not existing_match:
+            return {
+                "message": "Match does not exist in the database"
+            }, HTTPStatus.NOT_FOUND
+
+        print(existing_match)
+        
+        existing_match.team_one_score = match_dictionary['team_one_score']
+        existing_match.team_two_score = match_dictionary['team_two_score']
+
+        db.session.commit()
+
+
+        # Update the team_one_score and team_two_score of the found match
+
+        return match_serializer.jsonify(existing_match), HTTPStatus.OK
+
+    except ValidationError as e:
+        return {"errors": e.messages}, HTTPStatus.BAD_REQUEST

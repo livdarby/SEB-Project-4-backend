@@ -11,6 +11,7 @@ class MatchModel(db.Model):
     date_created = db.Column(db.Text, nullable=True)
     match_date = db.Column(db.Text, nullable=False)
     match_week = db.Column(db.Integer, nullable=False)
+    tournament = db.Column(db.Text, nullable=True)
     # prediction_id = db.Column(db.Integer, db.ForeignKey("predictions.id"), nullable=True)
 
     # prediction = db.relationship("PredictionModel", backref="predictions")
