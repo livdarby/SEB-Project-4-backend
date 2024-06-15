@@ -1,14 +1,16 @@
 from http import HTTPStatus
 import logging
 from datetime import datetime, timezone, timedelta
+import pytz
 import os
 import pprint
 from flask import Blueprint, g, request
 from marshmallow import ValidationError, Schema, fields
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy import func
 from serpapi import GoogleSearch
 from config.environment import API_KEY
-from sqlalchemy import func
+
 
 # Could we do a get to clean the data
 # And a post to post this data to the db?
@@ -144,11 +146,11 @@ def create():
         if existing_match:
             return {"message": "Match already exists."}, HTTPStatus.CONFLICT
 
+
         datetime_object = datetime.strptime(match_model.match_date, "%Y-%m-%dT%H:%M")
-        formatted_string = datetime_object.strftime("%a, %d %b %Y %H:%M:%S GMT")
+        formatted_string = datetime_object.strftime("%a, %d %b %Y %H:%M:%S")
         match_model.match_date = formatted_string
         match_model.date_created = datetime.now(timezone.utc)
-
         db.session.add(match_model)
         db.session.commit()
         return match_serializer.jsonify(match_model), HTTPStatus.OK
