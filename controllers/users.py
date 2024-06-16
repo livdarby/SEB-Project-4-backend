@@ -2,6 +2,7 @@ from http import HTTPStatus
 from datetime import datetime, timedelta, timezone
 from sqlalchemy.exc import SQLAlchemyError
 from serializers.user import UserSerializer
+from serializers.prediction import PredictionSerializer
 from config.environment import SECRET
 from flask import Blueprint, request, g
 import jwt
@@ -13,6 +14,7 @@ from models.match import MatchModel
 from middleware.secure_route import secure_route
 
 user_serializer = UserSerializer()
+prediction_serializer = PredictionSerializer()
 
 router = Blueprint("users", __name__)
 
@@ -135,6 +137,7 @@ def get_accuracy_score(user_id):
     except SQLAlchemyError:
         return {"message": "There has been an error"}
 
+
 @router.route("/all_accuracy", methods=["GET"])
 @secure_route
 def get_all_accuracy():
@@ -162,7 +165,8 @@ def get_all_accuracy():
 
             print(accuracy_list)
             user_info.append(
-                { "user_id" : user.id,
+                {
+                    "user_id": user.id,
                     "number-of-accurate-games": sum(accuracy_list),
                     "games_guessed": len(predictions_by_user),
                     "accuracy_score": sum(accuracy_list)
@@ -170,7 +174,66 @@ def get_all_accuracy():
                     * 100,
                 }
             )
-        return {"message" : user_info}
+        return {"message": user_info}
 
+    except SQLAlchemyError:
+        return {"message": "There has been an error"}
+
+    # given the user id, find all the euro predictions and the corresponding matches.
+    # for each euro prediction and corresponding match, check the score and push into a score array
+    # return the sum of the score array
+
+
+@router.route("/totaleuroscore", methods=["GET"])
+@secure_route
+def get_euro_total_score():
+    try:
+        predictions = PredictionModel.query.all()
+        users = UserModel.query.all()
+        users_to_check = []
+        for user in users:
+            if user.username != "admin":
+                users_to_check.append(user)
+        print(users_to_check)
+        check_user_score = []
+        for user in users_to_check:
+            predictions = PredictionModel.query.all()
+            predictions_by_user = []
+
+            for prediction in predictions:
+                if (
+                    prediction.user_id == user.id
+                    and prediction.match.tournament == "Euros"
+                    and prediction.match.team_one_score
+                ):
+                    predictions_by_user.append(prediction)
+            users_score = []
+            for prediction in predictions_by_user:
+                if (
+                    prediction.team_one_score == prediction.match.team_one_score
+                    and prediction.team_two_score == prediction.match.team_two_score
+                ):
+                    users_score.append(3)
+                elif (
+                    prediction.team_one_score == prediction.team_two_score
+                    and prediction.match.team_one_score
+                    == prediction.match.team_two_score
+                ):
+                    users_score.append(1)
+                elif (
+                    prediction.team_one_score > prediction.team_two_score
+                    and prediction.match.team_one_score
+                    > prediction.match.team_two_score
+                ) or (
+                    prediction.team_one_score < prediction.team_two_score
+                    and prediction.match.team_one_score
+                    < prediction.match.team_two_score
+                ):
+                    users_score.append(1)
+                else:
+                    users_score.append(0)
+            check_user_score.append({"id": user.id, "username" : user.username, "score": sum(users_score)})
+
+        return {"message": check_user_score}
     except SQLAlchemyError:
         return {"message": "There has been an error"}

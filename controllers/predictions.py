@@ -76,10 +76,10 @@ def get_all_user_predictions(user_id):
             {"message": "No user found. Provide a valid id"},
             HTTPStatus.NOT_FOUND,
         )
-    if user.id != g.current_user.id:
-        return {
-            "message": "You are not authorised to get these predictions"
-        }, HTTPStatus.UNAUTHORIZED
+    # if user.id != g.current_user.id:
+    #     return {
+    #         "message": "You are not authorised to get these predictions"
+    #     }, HTTPStatus.UNAUTHORIZED
     predictions = db.session.query(PredictionModel).filter(
         PredictionModel.user_id == user.id
     )
