@@ -12,10 +12,12 @@ from middleware.secure_route import secure_route
 
 from app import db
 from serializers.prediction import PredictionSerializer
+from serializers.user import UserSerializer
 
 router = Blueprint("predictions", __name__)
 
 prediction_serializer = PredictionSerializer()
+user_serializer = UserSerializer()
 
 
 @router.route("/predictions", methods=["GET"])
@@ -147,6 +149,7 @@ def check_user_predictions(user_id):
         HTTPStatus.OK,
     )
 
+
 @router.route("/predictionresult/<int:prediction_id>")
 @secure_route
 def check_prediction(prediction_id):
@@ -159,19 +162,31 @@ def check_prediction(prediction_id):
                 filtered_matches.append(match)
         match = filtered_matches[0]
         print(prediction, match)
-        if prediction.team_one_score == match.team_one_score and prediction.team_two_score == match.team_two_score:
+        if (
+            prediction.team_one_score == match.team_one_score
+            and prediction.team_two_score == match.team_two_score
+        ):
             points = 3
-        elif prediction.team_one_score == prediction.team_two_score and match.team_one_score == match.team_two_score:
+        elif (
+            prediction.team_one_score == prediction.team_two_score
+            and match.team_one_score == match.team_two_score
+        ):
             points = 1
-        elif prediction.team_one_score > prediction.team_two_score and match.team_one_score > match.team_two_score:
+        elif (
+            prediction.team_one_score > prediction.team_two_score
+            and match.team_one_score > match.team_two_score
+        ):
             points = 1
-        elif prediction.team_one_score < prediction.team_two_score and match.team_one_score < match.team_two_score:
+        elif (
+            prediction.team_one_score < prediction.team_two_score
+            and match.team_one_score < match.team_two_score
+        ):
             points = 1
         else:
             points = 0
         return {"points": points}, HTTPStatus.OK
     except SQLAlchemyError:
-        return {"message" : "There has been an error"}
+        return {"message": "There has been an error"}
 
 
 @router.route("/predictions/<int:prediction_id>", methods=["PUT"])
@@ -188,3 +203,46 @@ def editPrediction(prediction_id):
         return prediction_serializer.jsonify(edited_prediction)
     except SQLAlchemyError as e:
         return {"errors": e.messages, "message": "There has been an error"}
+
+
+@router.route("/admin", methods=["POST"])
+@secure_route
+def postAdminPrediction():
+    try:
+        prediction_dictionary = request.json
+        username = prediction_dictionary.pop("username", None)
+        user = UserModel.query.filter_by(username=username).first()
+        if user:
+            found_match = MatchModel.query.filter_by(
+                team_one_name=prediction_dictionary["team_one_name"]
+            ).first()
+            if not found_match:
+                return {"message": "Match not found"}, HTTPStatus.NOT_FOUND
+            if found_match.team_two_name != prediction_dictionary["team_two_name"]:
+                return {"message": "Match not found"}, HTTPStatus.NOT_FOUND
+            print("found: ", found_match)
+            predictions = PredictionModel.query.all()
+            predictions_by_user = []
+            for prediction in predictions:
+                if prediction.user_id == user.id:
+                    predictions_by_user.append(prediction)
+            for prediction in predictions_by_user:
+                if (
+                    prediction.team_one_name == prediction_dictionary["team_one_name"]
+                    and prediction.team_two_name
+                    == prediction_dictionary["team_two_name"]
+                ):
+                    return {
+                        "message": "Prediction already submitted"
+                    }, HTTPStatus.CONFLICT
+            prediction_model = prediction_serializer.load(prediction_dictionary)
+            prediction_model.user_id = user.id
+            prediction_model.date_created = datetime.now(timezone.utc)
+            prediction_model.match_id = found_match.id
+            db.session.add(prediction_model)
+            db.session.commit()
+            return prediction_serializer.jsonify(prediction_model), HTTPStatus.OK
+        else:
+            return {"message": "user not found"}, HTTPStatus.NOT_FOUND
+    except SQLAlchemyError as e:
+        return {"errors": e.messages, "message": "There has been an error"}, HTTPStatus.INTERNAL_SERVER_ERROR

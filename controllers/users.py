@@ -204,10 +204,11 @@ def get_euro_total_score():
                 if (
                     prediction.user_id == user.id
                     and prediction.match.tournament == "Euros"
-                    and prediction.match.team_one_score
+                    and isinstance(prediction.match.team_one_score, (int, float))
                 ):
                     predictions_by_user.append(prediction)
             users_score = []
+            print(predictions_by_user)
             for prediction in predictions_by_user:
                 if (
                     prediction.team_one_score == prediction.match.team_one_score
@@ -224,7 +225,9 @@ def get_euro_total_score():
                     prediction.team_one_score > prediction.team_two_score
                     and prediction.match.team_one_score
                     > prediction.match.team_two_score
-                ) or (
+                ):
+                    users_score.append(1)
+                elif (
                     prediction.team_one_score < prediction.team_two_score
                     and prediction.match.team_one_score
                     < prediction.match.team_two_score
@@ -232,7 +235,9 @@ def get_euro_total_score():
                     users_score.append(1)
                 else:
                     users_score.append(0)
-            check_user_score.append({"id": user.id, "username" : user.username, "score": sum(users_score)})
+            check_user_score.append(
+                {"id": user.id, "username": user.username, "score": sum(users_score)}
+            )
 
         return {"message": check_user_score}
     except SQLAlchemyError:
