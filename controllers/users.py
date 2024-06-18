@@ -236,8 +236,9 @@ def get_euro_total_score():
                 else:
                     users_score.append(0)
             check_user_score.append(
-                {"id": user.id, "username": user.username, "score": sum(users_score)}
+                {"id": user.id, "username": user.username, "score": sum(users_score), "scores_list" : users_score}
             )
+            print(users_score)
 
         return {"message": check_user_score}
     except SQLAlchemyError:
