@@ -212,6 +212,7 @@ def postAdminPrediction():
         prediction_dictionary = request.json
         username = prediction_dictionary.pop("username", None)
         user = UserModel.query.filter_by(username=username).first()
+        # print(prediction_dictionary["team_one_name"])
         if user:
             found_match = MatchModel.query.filter_by(
                 team_one_name=prediction_dictionary["team_one_name"]
