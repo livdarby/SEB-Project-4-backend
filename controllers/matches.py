@@ -146,7 +146,6 @@ def create():
         if existing_match:
             return {"message": "Match already exists."}, HTTPStatus.CONFLICT
 
-
         datetime_object = datetime.strptime(match_model.match_date, "%Y-%m-%dT%H:%M")
         formatted_string = datetime_object.strftime("%a, %d %b %Y %H:%M:%S")
         match_model.match_date = formatted_string
@@ -211,12 +210,11 @@ def update_score():
             }, HTTPStatus.NOT_FOUND
 
         print(existing_match)
-        
-        existing_match.team_one_score = match_dictionary['team_one_score']
-        existing_match.team_two_score = match_dictionary['team_two_score']
+
+        existing_match.team_one_score = match_dictionary["team_one_score"]
+        existing_match.team_two_score = match_dictionary["team_two_score"]
 
         db.session.commit()
-
 
         # Update the team_one_score and team_two_score of the found match
 
@@ -224,3 +222,40 @@ def update_score():
 
     except ValidationError as e:
         return {"errors": e.messages}, HTTPStatus.BAD_REQUEST
+
+
+@router.route("/matchesbyweek/<int:match_week>", methods=["GET"])
+@secure_route
+def get_matches_by_match_week(match_week):
+    try:
+        matches = db.session.query(MatchModel).all()
+        matches_by_match_week = []
+        for match in matches:
+            if match.match_week == match_week:
+                matches_by_match_week.append(match)
+        print(matches_by_match_week)
+        if not matches:
+            return {"message": "No matches for the game week selected"}
+
+        return match_serializer.jsonify(matches_by_match_week, many=True), HTTPStatus.OK
+    except ValidationError as e:
+        print(e.messages)
+        return {"errors": e.messages}, HTTPStatus.BAD_REQUEST
+
+    # Get all available match weeks!
+
+
+@router.route("/matchweeks", methods=["GET"])
+@secure_route
+def get_match_weeks():
+    try:
+        matches = db.session.query(MatchModel).all()
+        match_weeks = []
+        for match in matches:
+            match_weeks.append(match.match_week)
+        match_weeks = list(dict.fromkeys(match_weeks))
+        print(match_weeks)
+        return match_weeks
+    except ValidationError as e:
+        return {"errors": e.messages}, HTTPStatus.BAD_REQUEST
+

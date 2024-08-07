@@ -11,6 +11,7 @@ class UserModel(db.Model):
     password_hash = db.Column(db.Text, nullable=True)
     total_score = db.Column(db.Integer, unique=False, nullable=True)
     accuracy_score = db.Column(db.Integer, unique=False, nullable=True)
+    permissions = db.Column(db.Text, unique=False, nullable=True)
 
     @hybrid_property
     def password(self):

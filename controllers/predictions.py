@@ -246,4 +246,27 @@ def postAdminPrediction():
         else:
             return {"message": "user not found"}, HTTPStatus.NOT_FOUND
     except SQLAlchemyError as e:
-        return {"errors": e.messages, "message": "There has been an error"}, HTTPStatus.INTERNAL_SERVER_ERROR
+        return {
+            "errors": e.messages,
+            "message": "There has been an error",
+        }, HTTPStatus.INTERNAL_SERVER_ERROR
+
+
+@router.route("/prediction_by_user_and_match/<int:match_id>/<int:user_id>", methods=["GET"])
+@secure_route
+def get_predictions_by_user_and_match(match_id, user_id):
+    try:
+        predictions = db.session.query(PredictionModel).all()
+        predictions_by_match_id = []
+        for prediction in predictions:
+            print(prediction.match.id)
+            if prediction.match.id == match_id and prediction.user.id == user_id:
+                predictions_by_match_id.append(prediction)
+        if len(predictions_by_match_id) == 0:
+            return {"messages": "No predictions for this match"}, HTTPStatus.OK
+        return (
+            prediction_serializer.jsonify(predictions_by_match_id, many=True),
+            HTTPStatus.OK,
+        )
+    except ValidationError as e:
+        return {"errors": e.messages}, HTTPStatus.NOT_FOUND
