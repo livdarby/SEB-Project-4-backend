@@ -252,7 +252,7 @@ def get_match_weeks():
         matches = db.session.query(MatchModel).all()
         match_weeks = []
         for match in matches:
-            if match.tournament == "Premier League":
+            if match.tournament != "Euros":
                 match_weeks.append(match.match_week)
         match_weeks = list(dict.fromkeys(match_weeks))
         print(match_weeks)
