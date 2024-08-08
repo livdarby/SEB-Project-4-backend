@@ -231,7 +231,7 @@ def get_matches_by_match_week(match_week):
         matches = db.session.query(MatchModel).all()
         matches_by_match_week = []
         for match in matches:
-            if match.match_week == match_week:
+            if match.match_week == match_week and match.tournament == "Premier League":
                 matches_by_match_week.append(match)
         print(matches_by_match_week)
         if not matches:
@@ -252,7 +252,8 @@ def get_match_weeks():
         matches = db.session.query(MatchModel).all()
         match_weeks = []
         for match in matches:
-            match_weeks.append(match.match_week)
+            if match.tournament == "Premier League":
+                match_weeks.append(match.match_week)
         match_weeks = list(dict.fromkeys(match_weeks))
         print(match_weeks)
         return match_weeks
